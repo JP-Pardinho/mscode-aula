@@ -1,10 +1,28 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$mensagemErro = '';
+$valorMaximoTabuada = 10;
+$tabuada = null;
+if (isset($_GET['tabuada'])) {
+    $valorTabuadaInteiro = intval($_GET['tabuada']);
+    if ($valorMaximoTabuada < $valorTabuadaInteiro) {
+        $mensagemErro = 'O valor da tabuada não pode ser manipulado via GET e apenas no select';
+    }
+
+    $tabuada = $valorTabuadaInteiro;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora</title>
+    <title>Multiplicação</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
@@ -25,7 +43,7 @@
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Início</a>
+                                <a class="nav-link active" aria-current="page" href="index.php">Início</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#contato">Entre em contato</a>
@@ -48,77 +66,55 @@
         </nav>
     </header>
 
-    <main class="mt-5 mb-5">
+    <main class="mb-5 text-center">
         <section>
-            <div id="carouselAutoplaying" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="imagens/soma.png" class="d-block w-100" alt="Banner soma">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="imagens/subtracao.png" class="d-block w-100" alt="Banner subtração">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="imagens/multiplicacao.png" class="d-block w-100" alt="Banner multiplicação">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="imagens/divisao.png" class="d-block w-100" alt="Banner divisão">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselAutoplaying" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselAutoplaying" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+            <img src="imagens/multiplicacao.png" class="d-block w-100" alt="imagem multiplicacao">
+        </section>
+
+        <section class="container">
+            <h1 class="mt-5">Tabuada da multiplicação</h1>
+            <p>Digite um número para ver a tabuada da multiplicação com ele.</p>
+        </section>
+
+        <section class="container">
+            <form action="" method="get">
+                <select name="tabuada">
+                    <?php
+                    for ($i = 1; $i <= $valorMaximoTabuada; $i++) {
+                        echo sprintf(
+                            '<option value="%d">%d</option>',
+                            $i,
+                            $i,
+                        );
+                    }
+                    ?>
+                </select>
+                <button type="submit">Ver</button>
+            </form>
+    
+            <div>
+                <?php
+                if ('' === $mensagemErro && null !== $tabuada && 0 !== $tabuada) {
+                    for ($j = 1; $j <= $valorMaximoTabuada; $j++) {
+                        $resultado = $j * $tabuada;
+    
+                        echo sprintf('<span>%d x %d = %d</span> </br>', $j, $tabuada, $resultado);
+                    }
+                }
+    
+                if ('' !== $mensagemErro) {
+                    echo '<span>' . $mensagemErro . '</span>';
+                }
+                ?>
             </div>
         </section>
 
-        <section id="operacoes" class="container mt-5 text-center">
-            <h1 class="mt-5 mb-5">Operações</h1>
-            <div class="row gap-3 justify-content-center">
-                <div class="card" style="width: 18rem;">
-                    <img src="imagens/cardSoma.png" class="card-img-top" alt="Icone soma">
-                    <div class="card-body">
-                        <h5 class="card-title">Soma &#x2795</h5>
-                        <p class="card-text">Bora praticar? Clique em Calcular, escolha um número e descubra como essa operação funciona com vários valores!</p>
-                        <a href="soma.php" class="btn btn-primary">Calcular</a>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 18rem;">
-                    <img src="imagens/cardSubt.png" class="card-img-top" alt="Icone subtração">
-                    <div class="card-body">
-                        <h5 class="card-title">Subtração &#x2796</h5>
-                        <p class="card-text">Bora praticar? Clique em Calcular, escolha um número e descubra como essa operação funciona com vários valores!</p>
-                        <a href="subtracao.php" class="btn btn-primary">Calcular</a>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 18rem;">
-                    <img src="imagens/cardDiv.png" class="card-img-top" alt="Icone divisão">
-                    <div class="card-body">
-                        <h5 class="card-title">Divisão &#x2797</h5>
-                        <p class="card-text">Bora praticar? Clique em Calcular, escolha um número e descubra como essa operação funciona com vários valores!</p>
-                        <a href="divisao.php" class="btn btn-primary">Calcular</a>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 18rem;">
-                    <img src="imagens/cardMult.png" class="card-img-top" alt="Icone multiplicação">
-                    <div class="card-body">
-                        <h5 class="card-title">Multiplicação &#x2716</h5>
-                        <p class="card-text">Bora praticar? Clique em Calcular, escolha um número e descubra como essa operação funciona com vários valores!</p>
-                        <a href="multiplicacao.php" class="btn btn-primary">Calcular</a>
-                    </div>
-                </div>
-            </div>
+        <section class="mt-5">
+            <button type="button" class="btn btn-success"><a href="index.php" class="text-white">Voltar para página anterior</a></button>
         </section>
     </main>
 
-    <footer id="contato" class="bg-success py-4 mt-5">
+    <footer id="contato" class="bg-success py-4">
         <div class="container">
             <div class="row text-center">
                 <div class="col-12 mb-3">
@@ -147,14 +143,16 @@
                 </div>
 
                 <div class="col-12">
-                    <p>Site criado por <a href="https://github.com/JP-Pardinho" target="_blank" class="text-white">
-                        JP-Pardinho</a> para o curso MS-Code.
+                    <p>
+                        Site criado por <a href="https://github.com/JP-Pardinho" target="_blank" class="text-white">
+                            JP-Pardinho</a> para o curso MS-Code.
                     </p>
                     <p>©2025 Loja do Pardin. Todos os direitos reservados.</p>
                 </div>
             </div>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>
 </html>
