@@ -7,14 +7,8 @@ error_reporting(E_ALL);
 require_once './classe/Pessoa.php';
 require_once './classe/CpfCnpj.php';
 
-$cpfCnpj = CpfCnpj::cpfNaoConfiavel('82.359.808/0001-24');
+$cpfCnpj = CpfCnpj::cpfNaoConfiavel('849.947-08');
 
-$pessoa = new Pessoa(
-    'Rejman Nascimento',
-    $cpfCnpj,
-    new DateTimeImmutable('1998-08-21'),
-);
+$pessoa = new Pessoa('Rejman Nascimento', $cpfCnpj, new DateTimeImmutable('1998-08-21'));
 
-var_dump(
-    $pessoa->getCpfCnpj()->getDocumentoFormatado(),
-);
+var_dump($pessoa->getCpfCnpj()->getDocumentoFormatado());
