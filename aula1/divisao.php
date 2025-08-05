@@ -78,7 +78,7 @@ if (isset($_GET['tabuada'])) {
 
         <section class="container">
             <form action="" method="get">
-                <select name="tabuada">
+                <select class="form-select form-select-lg mb-3" name="tabuada">
                     <?php
                     for ($i = 1; $i <= $valorMaximoTabuada; $i++) {
                         echo sprintf(
@@ -89,7 +89,8 @@ if (isset($_GET['tabuada'])) {
                     }
                     ?>
                 </select>
-                <button type="submit">Ver</button>
+                <button type="submit" class="btn btn-primary">Ver</button>
+                <!-- <button type="submit">Ver</button> -->
             </form>
     
             <div>
